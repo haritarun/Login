@@ -5,7 +5,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 import LandingPage from './src/Screens/LandingPage';
 import Register from './src/Screens/Register';
-import LoingPhone from './src/Screens/LoingPhone';
+
+import VerifyOtp from './src/Screens/VerifyOtp';
 
 
 const Stack = createStackNavigator();
@@ -20,7 +21,7 @@ const App = () => {
         <Stack.Screen name="onLandingPage" component={LandingPage} />
         <Stack.Screen name="login" component={LoginScreen}/>
         <Stack.Screen name="register" component={Register} />
-        <Stack.Screen name="loginPhone" component={LoingPhone} />
+        <Stack.Screen name="verifyOtp" component={VerifyOtp} />
       </Stack.Navigator> 
     </NavigationContainer>
   )

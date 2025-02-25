@@ -1,10 +1,12 @@
-import { Text, View ,StyleSheet, TouchableOpacity} from 'react-native'
+import { Text, View ,StyleSheet, TouchableOpacity, Alert} from 'react-native'
 import React,{useState} from 'react'
 import LinearGradient from 'react-native-linear-gradient'
 import LottieView from 'lottie-react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
+
 
 
 
@@ -14,48 +16,39 @@ const Register = () => {
     const navigation = useNavigation()
     const [isEmail,setEmail] = useState('')
     const [isPassword,setPassword] = useState('')
+    const [isEmailError,setEmailError]=useState('')
+    const [isShow,setShow]=useState(false)
+    const [isPasswordError,setErrorPassword]=useState("")
+
     const getNavigate=()=>{
         navigation.navigate("login")
     }
 
-    // const getSubmit=()=>{
-    //     if(isEmail.trim()===''){
-    //         Toast.show({
-    //           type: 'error',
-    //           text1: 'Error',
-    //           text2: 'Enter Any Email',
-    //         });
-    //     }
-    //     if(isPassword.trim()===''){
-    //         Toast.show({
-    //           type:'error',
-    //           text:'Error',
-    //           text2:'Enter Some Password'
-    //         })
-    //     }
-        
-    //     else{
-    //       const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    //       if (regex.test(isEmail)){
-    //           Toast.show({
-    //             type:'success',
-    //             text:'Success',
-    //             text2:'Successfully Account Created'
-    //           })
-    //       }
-    //       else{
-    //         Toast.show({
-    //           type:'error',
-    //           text:'error',
-    //           text2:'Enter Valid Email'
-    //         })
-    //       }
-    //     }
-    // }
+    
 
-    // const getPhoneNumber=()=>{
-    //   navigation.navigate("LoginPhone")
-    // }
+    const getSubmit = async ()=>{
+      // if(isEmail.trim()===""){
+      //   setEmailError('Enter Any Email')
+      // }
+      // if(isPassword.trim()===""){
+      //   setPassword('Enter Any Password')
+      // }
+      // const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      // if(regex.test(isEmail)){
+      
+        const response = await axios.post('http://192.168.230.39/login',{
+          email:isEmail,
+          password:isPassword,
+        })
+        if (response.status===200){
+          const data = {
+            email:isEmail,
+            password:isPassword
+          }
+          navigation.navigate('veriftOtp',{data})
+      //   }
+      }
+    }
 
   return (
     <LinearGradient
@@ -78,8 +71,8 @@ const Register = () => {
                   onChangeText={(val)=>{setPassword(val)}} 
                 />
             </View>
-            <TouchableOpacity style={styles.loginButton} >
-                <Text style={styles.loginText}>Sign Up </Text>
+            <TouchableOpacity style={styles.loginButton} onPress={getSubmit}>
+                <Text style={styles.loginText}>Sign Up</Text>
             </TouchableOpacity>
             <Text style={styles.bottomText}>Already You Have An Account ? <Text style={{color:'blue'}} onPress={getNavigate}>Sign In</Text></Text>
             {/* <Text onPress={getPhoneNumber}>Loing With Phone Number</Text> */}
