@@ -24,7 +24,6 @@ const Register = () => {
         navigation.navigate("login")
     }
 
-    
 
     const getSubmit = async ()=>{
       // if(isEmail.trim()===""){
@@ -36,17 +35,22 @@ const Register = () => {
       // const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       // if(regex.test(isEmail)){
       
-        const response = await axios.post('http://192.168.230.39/login',{
+      try {
+        console.log('Making API call to backend...');
+        const response = await axios.post('http://192.168.230.39:3000/login', {
           email:isEmail,
           password:isPassword,
-        })
-        if (response.status===200){
+        });
+        console.log('Response:', response.data);
+        if (response.status === 200) {
           const data = {
-            email:isEmail,
-            password:isPassword
-          }
-          navigation.navigate('veriftOtp',{data})
-      //   }
+            email: isEmail, 
+            password: isPassword,
+          };
+          navigation.navigate('verifyOtp', { data });
+        }
+      } catch (error) {
+        console.error('Error during API call:', error);
       }
     }
 
@@ -72,7 +76,7 @@ const Register = () => {
                 />
             </View>
             <TouchableOpacity style={styles.loginButton} onPress={getSubmit}>
-                <Text style={styles.loginText}>Sign Up</Text>
+                <Text style={styles.loginText}>Create Account</Text>
             </TouchableOpacity>
             <Text style={styles.bottomText}>Already You Have An Account ? <Text style={{color:'blue'}} onPress={getNavigate}>Sign In</Text></Text>
             {/* <Text onPress={getPhoneNumber}>Loing With Phone Number</Text> */}
